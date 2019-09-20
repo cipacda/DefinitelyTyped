@@ -12,6 +12,7 @@
 //                 Desmond Koh <https://github.com/deskoh>
 //                 Maurice de Beijer <https://github.com/mauricedb>
 //                 Kalley Powell <https://github.com/kalley>
+//                 Ciprian Florescu <https://github.com/cipacda>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.8
 
@@ -23,7 +24,8 @@ export function addMethod<T extends Schema<any>>(
 ): void;
 export function ref(path: string, options?: { contextPrefix: string }): Ref;
 export function lazy<T>(fn: (value: T) => Schema<T>): Lazy;
-export function setLocale(customLocale: LocaleObject): void;
+export function setLocale(customLocale: LocaleObject, language?: string): void;
+export function setLocales(customLocales: MultiLocaleObject): void;
 export function isSchema(obj: any): obj is Schema<any>;
 
 export const mixed: MixedSchemaConstructor;
@@ -316,6 +318,10 @@ export interface ValidateOptions {
      * Any context needed for validating schema conditions (see: when())
      */
     context?: object;
+    /**
+     * Language in which the messages should be translated. If a custom message was passed when schema was created, it will not be translated
+     */
+    lang?: object;
 }
 
 export interface TestMessageParams {
@@ -482,6 +488,10 @@ export interface LocaleObject {
     boolean?: {};
     object?: ObjectLocale;
     array?: ArrayLocale;
+}
+
+export interface MultiLocaleObject {
+    [language: string]: LocaleObject;
 }
 
 export type InferType<T> = T extends Schema<infer P> ? InnerInferType<P> : never;
